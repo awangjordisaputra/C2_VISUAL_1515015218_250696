@@ -1,4 +1,6 @@
-package posttest2;
+package posttest3;
+
+import posttest2.*;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -10,37 +12,37 @@ package posttest2;
  *
  * @author AJS
  */
-public class Output extends javax.swing.JFrame {
+public class Output1 extends javax.swing.JFrame {
 
     /**
      * Creates new form Output
      */
-    public Output() {
+    public Output1() {
         initComponents();
     }
 
-    Output(String Nama, String Tempat, String Jk, String Alamat, String Rr, String Rw, String Kd, String Kecamatan, String Kota, String Agama, String Status, String Gd, String Pekerjaan, String Kg) {
+    Output1(String Nama, String Tempat, String Jk, String Alamat, String Rr, String Rw, String Kd, String Kecamatan, String Kota, String Agama, String Status, String Gd, String Pekerjaan, String Kg) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     
     }
 
-    Output(String Nama, String Tempat1, String Tempat2, String Jk, String Alamat, String Rr, String Rw, String Kd, String Kecamatan, String Kota, String Agama, String Status, String Gd, String Pekerjaan, String Kg) {
+    Output1(String Nama, String Tempat1, String Tempat2, String Jk, String Alamat, String Rr, String Rw, String Kd, String Kecamatan, String Kota, String Agama, String Status, String Gd, String Pekerjaan, String Kg) {
         initComponents();
-        nama.setText(Nama);
-        tempat.setText(Tempat1);
-        tanggal.setText(Tempat2);
-        jenis.setText(Jk);
-        alamat.setText(Alamat);
-        rt.setText(Rr);
-        rw.setText(Rw);
-        desa.setText(Kd);
-        kecamatan.setText(Kecamatan);
-        kota.setText(Kota);
-        agama.setText(Agama);
-        status.setText(Status);
-        gd.setText(Gd);
-        pekerjaan.setText(Pekerjaan);
-        kg.setText(Kg);
+        nama.setText(Nama);         //Mengatur ke variable nama
+        tempat.setText(Tempat1);    //Mengatur ke variable tempat
+        tanggal.setText(Tempat2);   //Mengatur ke variable tanggal
+        jenis.setText(Jk);          //Mengatur ke variable jenis
+        alamat.setText(Alamat);     //Mengatur ke variable alama        
+        rt.setText(Rr);             //Mengatur ke variable rt
+        rw.setText(Rw);             //Mengatur ke variable rw
+        desa.setText(Kd);               //Mengatur ke variable desa         
+        kecamatan.setText(Kecamatan);   //Mengatur ke variable kecamatan
+        kota.setText(Kota);             //Mengatur ke variable kota
+        agama.setText(Agama);           //Mengatur ke variable agama
+        status.setText(Status);         //Mengatur ke variable status
+        gd.setText(Gd);                 //Mengatur ke variable gd
+        pekerjaan.setText(Pekerjaan);   //Mengatur ke variable pekerjaan
+        kg.setText(Kg);                 //Mengatur ke variable kg
         
         
     }
@@ -345,20 +347,21 @@ public class Output extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Output.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Output1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Output.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Output1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Output.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Output1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Output.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Output1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Output().setVisible(true);
+                new Output1().setVisible(true);
             }
         });
     }
