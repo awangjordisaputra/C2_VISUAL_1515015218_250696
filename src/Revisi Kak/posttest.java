@@ -3,8 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package posttest7;
-import posttest6.*;
+package revisiawang;
 import java.awt.Color;
 import java.sql.*;
 import javax.swing.JOptionPane;
@@ -27,20 +26,19 @@ public class posttest extends javax.swing.JFrame {
         private ResultSet rss;
         private PreparedStatement pst;
         
-    private void InitTable(){ //inisiasi tabel atau membuat tabel secara manual
-        model = new DefaultTableModel(); //instansiasi class model dari class DefaultTableModel
+    private void InitTable(){ 
+        model = new DefaultTableModel(); 
         model.addColumn("id");
-        model.addColumn("JUDUL"); //membuat kolom JUDUL di instance class model
-        model.addColumn("PENULIS");//membuat kolom PENULIS di instance class model
-        model.addColumn("HARGA");//membuat kolom HARGA di instance class model
-        jTable1.setModel(model); //mengeset instance of class model ke jTable1
+        model.addColumn("NAMA"); 
+        model.addColumn("JURUSAN");
+        model.addColumn("NIM");
+        jTable1.setModel(model); 
     }
-    private boolean validasidatasama(String judul, String penulis){ //method untuk validasi data agar tidak boleh sama
+    private boolean validasidatasama(String nama, String jurusan){ 
         try {
-            stt = con.createStatement(); //untuk konek ke database
-            String sql = "SELECT * FROM buku WHERE judul='"+judul+"'"; //mendeklarasikan variabel sql dengan query untuk menampilkan data sesuai kondisi judul yang ditentukan
-            rss = stt.executeQuery(sql); //untuk mengeksekusi query
-            //kondisi untuk menampilkan hasil dan nilai pengembaliannya
+            stt = con.createStatement(); 
+            String sql = "SELECT * FROM mahasiswa WHERE nama='"+nama+"'"; 
+            rss = stt.executeQuery(sql);
             if(rss.next()) 
                 return true; 
             else 
@@ -54,16 +52,16 @@ public class posttest extends javax.swing.JFrame {
     
     private void TampilData(){ //menampilkan data
         try{
-            String sql = "SELECT * FROM buku"; //menampilkan semua data pada tabel buku
-            stt = con.createStatement();//pembuatan statement
-            rss = stt.executeQuery(sql);//eksekusi quer
-            while(rss.next()){//perulangan menampilkan data
-                Object[] o = new Object[4]; //membuat object o dengan jumlah array 3
+            String sql = "SELECT * FROM mahasiswa"; 
+            stt = con.createStatement();
+            rss = stt.executeQuery(sql);
+            while(rss.next()){
+                Object[] o = new Object[4]; 
                 //menampilkan data array :
                 o[0] = rss.getString("id");
-                o[1] = rss.getString("judul");
-                o[2] = rss.getString("penulis");
-                o[3] = rss.getInt("harga");
+                o[1] = rss.getString("nama");
+                o[2] = rss.getString("jurusan");
+                o[3] = rss.getInt("nim");
                 model.addRow(o);
             }
         rss.close();//rss, menutup
@@ -76,9 +74,9 @@ public class posttest extends javax.swing.JFrame {
     
    private void btn_HapusData(String id){
         try {
-            String sql="delete from buku where id='"+id+"'";//mendeklarasikan variabel sql dengan query untuk menghapus data sesuai kondisi
-            stt = con.createStatement();//pembuatan statement
-            stt.executeUpdate(sql);//eksekusi query
+            String sql="delete from mahasiswa where id='"+id+"'";
+            stt = con.createStatement();
+            stt.executeUpdate(sql);
             
             
             
@@ -86,35 +84,32 @@ public class posttest extends javax.swing.JFrame {
             System.out.println(ex.getMessage());
         }
     }
-    // method untuk menambahkan data dengan parameter judul,penulis,harga
-    public void TambahData(String judul, String penulis, String harga){
+    
+    public void TambahData(String nama, String jurusan, String nim){
         try{
             
-            String sql = "INSERT INTO buku VALUES (NULL,'"+judul+"','"+penulis+"',"+harga+")"; //mendeklarasikan variabel sql dengan query untuk menginsert data judul, penulis, harga
-            stt = con.createStatement();//pembuatan statement
-            stt.executeUpdate(sql);//eksekusi query
+            String sql = "INSERT INTO mahasiswa VALUES (NULL,'"+nama+"','"+jurusan+"',"+nim+")";
+            stt = con.createStatement();
+            stt.executeUpdate(sql);
             
-            //mengosongkan atau menset isi dari tesxfield dan combobox di frame
-            txtJudul.setText("");
-            comboPenulis.setSelectedItem(0);
-            txtHarga.setText("");
+            txtNama.setText("");
+            comboJurusan.setSelectedItem(0);
+            txtNim.setText("");
         }catch(SQLException e){
             System.out.println(e.getMessage());
         }
     }
     
-    // method untuk mngupdate data dengan parameter judul,penulis,harga
-    public void btn_UpdateData(String id,String judul, String penulis, String harga){
+    public void btn_UpdateData(String id,String nama, String jurusan, String nim){
        try {
             int baris = jTable1.getSelectedRow();
-            String sql = "update buku set judul='"+judul+"', penulis='"+penulis+"', harga="+harga+" where id="+id+";";//mendeklarasikan variabel sql dengan query untuk mengupdate data judul, penulis, harga dari kondisi yang ditentukan
-            stt = con.createStatement();//pembuatan statement
-            stt.executeUpdate(sql);//eksekusi query
+            String sql = "update mahasiswa set nama='"+nama+"', jurusan='"+jurusan+"', nim="+nim+" where id="+id+";";
+            stt = con.createStatement();
+            stt.executeUpdate(sql);
             
-            //mengosongkan atau menset isi dari tesxfield dan combobox di frame
-            txtJudul.setText("");
-            comboPenulis.setSelectedItem(0);
-            txtHarga.setText("");
+            txtNama.setText("");
+            comboJurusan.setSelectedItem(0);
+            txtNim.setText("");
         } catch (SQLException ex) {
              System.out.println(ex.getMessage());
         }
@@ -136,17 +131,17 @@ public class posttest extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        txtJudul = new javax.swing.JTextField();
-        comboPenulis = new javax.swing.JComboBox<>();
-        txtHarga = new javax.swing.JTextField();
+        txtNama = new javax.swing.JTextField();
+        comboJurusan = new javax.swing.JComboBox<>();
+        txtNim = new javax.swing.JTextField();
         cari = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        combocari = new javax.swing.JComboBox<>();
         btn_Simpan1 = new javax.swing.JButton();
         btn_Update = new javax.swing.JButton();
         btn_Hapus = new javax.swing.JButton();
         btn_Keluar = new javax.swing.JButton();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jLabel6 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
@@ -162,45 +157,45 @@ public class posttest extends javax.swing.JFrame {
         header.setBackground(new java.awt.Color(204, 204, 204));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel1.setText("FORM DATA BUKU");
+        jLabel1.setText("FORM DATA MAHASISWA");
 
         javax.swing.GroupLayout headerLayout = new javax.swing.GroupLayout(header);
         header.setLayout(headerLayout);
         headerLayout.setHorizontalGroup(
             headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(headerLayout.createSequentialGroup()
+                .addGap(90, 90, 90)
                 .addComponent(jLabel1)
-                .addGap(137, 137, 137))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         headerLayout.setVerticalGroup(
             headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(headerLayout.createSequentialGroup()
-                .addGap(29, 29, 29)
+                .addGap(30, 30, 30)
                 .addComponent(jLabel1)
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         jPanel2.setBackground(new java.awt.Color(204, 204, 204));
 
         jLabel2.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
-        jLabel2.setText("Judul");
+        jLabel2.setText("Nama");
 
         jLabel3.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
-        jLabel3.setText("Harga");
+        jLabel3.setText("Nim");
 
         jLabel4.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
-        jLabel4.setText("Penulis");
+        jLabel4.setText("Jurusan");
 
-        txtJudul.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtNama.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
-        comboPenulis.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        comboPenulis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Awang Jordi Saputra", "Awang", "Jordi", "Saputra" }));
+        comboJurusan.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        comboJurusan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "TEKNIK INFORMATIKA", "ILMU KOMPUTER" }));
 
-        txtHarga.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtHarga.addActionListener(new java.awt.event.ActionListener() {
+        txtNim.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtNim.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtHargaActionPerformed(evt);
+                txtNimActionPerformed(evt);
             }
         });
 
@@ -217,17 +212,6 @@ public class posttest extends javax.swing.JFrame {
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel5.setText("Search ");
-
-        jLabel6.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel6.setText("By ");
-
-        combocari.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Judul", "Penulis", "Harga" }));
-        combocari.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                combocariActionPerformed(evt);
-            }
-        });
 
         btn_Simpan1.setBackground(Color.getHSBColor(45,115,255));
         btn_Simpan1.setText("Simpan");
@@ -296,13 +280,18 @@ public class posttest extends javax.swing.JFrame {
             }
         });
 
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NAMA", "JURUSAN", "NIM" }));
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel6.setText("BY");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(28, 28, 28)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -310,9 +299,10 @@ public class posttest extends javax.swing.JFrame {
                             .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(comboPenulis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtJudul, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
-                            .addComponent(txtHarga)))
+                            .addComponent(comboJurusan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtNama, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
+                            .addComponent(txtNim))
+                        .addContainerGap(123, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -321,21 +311,20 @@ public class posttest extends javax.swing.JFrame {
                                 .addComponent(cari, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(btn_Simpan1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 84, Short.MAX_VALUE)
                                 .addComponent(btn_Update)
                                 .addGap(39, 39, 39)
                                 .addComponent(btn_Hapus, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(31, 31, 31)
+                                .addGap(36, 36, 36)
+                                .addComponent(btn_Keluar, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
                                 .addComponent(jLabel6)
-                                .addGap(23, 23, 23)
-                                .addComponent(combocari, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btn_Keluar, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(11, 11, 11)))))
-                .addContainerGap(64, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(108, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -343,15 +332,15 @@ public class posttest extends javax.swing.JFrame {
                 .addGap(24, 24, 24)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(txtJudul, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(comboPenulis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(comboJurusan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(txtHarga, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btn_Simpan1)
@@ -363,8 +352,8 @@ public class posttest extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cari, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5)
-                    .addComponent(jLabel6)
-                    .addComponent(combocari, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
                 .addContainerGap())
         );
 
@@ -399,7 +388,7 @@ public class posttest extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 495, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 554, Short.MAX_VALUE)
                     .addComponent(header, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -412,7 +401,7 @@ public class posttest extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -430,48 +419,48 @@ public class posttest extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtHargaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtHargaActionPerformed
+    private void txtNimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNimActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtHargaActionPerformed
+    }//GEN-LAST:event_txtNimActionPerformed
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
-        InitTable();//menjalankan fungsi InitTable
-        TampilData();//menjalankan fungsi TampilData
+        InitTable();
+        TampilData();
     }//GEN-LAST:event_formComponentShown
 
-    //fungsi untuk menampilkan data di textfield dan combobox sesuai dengan data yang dipilih di tabel
+    
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        int baris = jTable1.getSelectedRow(); //deklarasi variabel baris dengan nilai yang di klik pada jTable1
+        int baris = jTable1.getSelectedRow();
         
-        String judul_edit = jTable1.getValueAt(baris, 1).toString(); //deklarasi variabel judul_edit dengan nilai dari baris ke-0 dari jTable1 yang dijadikan ke tipe data String
-        String penulis_edit = jTable1.getValueAt(baris, 2).toString(); //deklarasi variabel penulis_edit dengan nilai dari baris ke-1 dari jTable1 yang dijadikan ke tipe data String
-        String harga_edit = jTable1.getValueAt(baris, 3).toString();//deklarasi variabel harga_edit dengan nilai dari baris ke-2 dari jTable1 yang dijadikan ke tipe data String
+        String nama_edit = jTable1.getValueAt(baris, 1).toString(); 
+        String jurusan_edit = jTable1.getValueAt(baris, 2).toString();
+        String nim_edit = jTable1.getValueAt(baris, 3).toString();
         
-        txtJudul.setText(judul_edit); //mengeset nilai di textfield txtJudul sesuai dari nilai judul_edit
-        comboPenulis.setSelectedItem(penulis_edit); //mengeset nilai di combobox comboPenulis sesuai dari nilai penulis_edit
-        txtHarga.setText(harga_edit);//mengeset nilai di textfield txtHarga sesuai dari nilai harga_edit
+        txtNama.setText(nama_edit); 
+        comboJurusan.setSelectedItem(jurusan_edit); 
+        txtNim.setText(nim_edit);
     }//GEN-LAST:event_jTable1MouseClicked
 //fungsi untuk melakukan pencarian
     private void cariKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cariKeyTyped
-        model.getDataVector().removeAllElements();//mendeklarasikan model yang mmengambil data vector dan meremove semua ellements
-        model.fireTableDataChanged();//mendeklarasikan model yang di fireTableDataChanged
-        String caridengan = combocari.getSelectedItem().toString();//mendeklarasikan variabel caridengan yang mengambil nilai dari combocari yang di jadikan string
+        model.getDataVector().removeAllElements();
+        model.fireTableDataChanged();
+        String caridengan = jComboBox1.getSelectedItem().toString();
         try {
             
-             String sql="select * from buku where "+caridengan+" like '%"+cari.getText()+"%'";////mendeklarasikan variabel sql dengan query untuk mencari data sesuai nilai dari combocari yang mengandung data sesuai nilai yang diinput di textfield cari
-           stt = con. createStatement();//pembuatan statement
-            rss = stt. executeQuery(sql);//eksekusi query
+             String sql="select * from mahasiswa where "+caridengan+" like '%"+cari.getText()+"%'";
+           stt = con. createStatement();
+            rss = stt. executeQuery(sql);
             ResultSet rss=stt.executeQuery(sql);
-            while (rss.next()) { // perulangan result set dari variable rss hingga tidak terpenuhi untuk perulangan
-                //menampilkan data sesuai array : 
+            while (rss.next()) { 
+               
                 Object[] o=new Object[3];
-                o[0]=rss.getString("JUDUL");
-                o[1]=rss.getString("PENULIS");
-                o[2]=rss.getString("HARGA");
+                o[0]=rss.getString("NAMA");
+                o[1]=rss.getString("JURUSAN");
+                o[2]=rss.getString("NIM");
             model.addRow(o);
             }
-            stt.close();//menutup stt
-            rss.close();//menutup rss
+            stt.close();
+            rss.close();
         }catch(SQLException e) {
             System.out.println("Terjadi Masalah");
         }
@@ -491,17 +480,17 @@ public class posttest extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_Simpan1MouseExited
 //event ActionPerformed untuk menjalankan fungsi TambahData
     private void btn_Simpan1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Simpan1ActionPerformed
-        if (txtJudul.getText().length()!=0 && txtHarga.getText().length()!=0) { //penyeleksian kondisijika textfield txtJudul dan txtHarga tidak kosong
-            String judul = txtJudul.getText(); //mendeklarasikan judul sesuai dengan texfield txtJudul
-            String penulis = comboPenulis.getSelectedItem().toString();//mendeklarasikan penulis sesuai dengan combobox combopenulis
-            String harga = txtHarga.getText(); //mendeklarasikan harga sesuai dengan texfield txtHarga
+        if (txtNama.getText().length()!=0 && txtNim.getText().length()!=0) { 
+            String nama = txtNama.getText(); 
+            String jurusan = comboJurusan.getSelectedItem().toString();
+            String nim = txtNim.getText(); 
             
-            if(validasidatasama(judul,penulis)){ //penyeleksian kondisi yang diambil dari fungsi validasi dengan parameter judul
-                JOptionPane.showMessageDialog(null, "Judul Jangan Sama Sayang");
+            if(validasidatasama(nama,jurusan)){ 
+                JOptionPane.showMessageDialog(null, "Nama Jangan Sama Sayang");
             }
             else{
-            TambahData(judul,penulis,harga); //menjalankan fungsi TambahData sesuai dengan parameter judul, penulis, harga
-            InitTable();//menampilkan ulang model dari table buku
+            TambahData(nama,jurusan,nim); 
+            InitTable();
             TampilData();
             JOptionPane.showMessageDialog(this, "Data Berhasil Di Simpan");
             }
@@ -525,9 +514,9 @@ public class posttest extends javax.swing.JFrame {
     private void btn_UpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_UpdateActionPerformed
         int baris = jTable1.getSelectedRow();
         String id = jTable1.getValueAt(baris, 0).toString();
-        String judul = txtJudul.getText();//mendeklarasikan judul sesuai dengan texfield txtJudul
-        String penulis = comboPenulis.getSelectedItem().toString();//mendeklarasikan penulis sesuai dengan combobox combopenulis
-        String harga = txtHarga.getText();//mendeklarasikan harga sesuai dengan texfield txtHarga
+        String nama = txtNama.getText();
+        String jurusan = comboJurusan.getSelectedItem().toString();
+        String nim = txtNim.getText();
         
         int ok=JOptionPane.showConfirmDialog(this,"Update Data Yang Dipilih?","Confirmation Update",JOptionPane.YES_NO_OPTION);
          try
@@ -536,9 +525,9 @@ public class posttest extends javax.swing.JFrame {
                 {
                 try
                     {
-                        btn_UpdateData(id,judul,penulis,harga); //menjalankan fungsi UpdateData tadi dengan parameter yang ada
-                        InitTable(); //untuk menampilkan ulang model yang ada sehingga akan update ketika ada perubahan setelah dilakukan UpdateData di database
-                        TampilData();//untuk menampilkan ulang fungsi TampilData
+                        btn_UpdateData(id,nama,jurusan,nim); 
+                        InitTable(); 
+                        TampilData();
                         
                         JOptionPane.showMessageDialog(this,"Update Data Sukses");
                     }
@@ -566,9 +555,9 @@ public class posttest extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_HapusMouseExited
 //fungsi utnuk menghaous data
     private void btn_HapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_HapusActionPerformed
-       int baris = jTable1.getSelectedRow(); //mendekarasikan variabel baris sesuai data yang dipilih di tabel
-       String id = jTable1.getValueAt(baris, 0).toString(); //Mendeklarasikan variabel id yang bernilai dari baris ke-0 dari tabel yang di konversi ke string
-       String judul = jTable1.getValueAt(baris, 0).toString(); //mendeklarasikan variabel judul yang bernilai dari baris ke-0 dari tabel yang di konversi ke string
+       int baris = jTable1.getSelectedRow(); 
+       String id = jTable1.getValueAt(baris, 0).toString(); 
+       String nama = jTable1.getValueAt(baris, 0).toString();
    
    int ya = JOptionPane.showConfirmDialog(this, "Ingin Menghapus Data?","Confirm Hapus",JOptionPane.YES_NO_OPTION);
    
@@ -576,11 +565,11 @@ public class posttest extends javax.swing.JFrame {
        {
         try
          {
-            btn_HapusData(judul);//menjalankan fungsi HapusData dengan parameter judul berdasarkan baris yang di pilih
-            InitTable();//menampilkan ulang model dari table buku
-            TampilData();//menampilkan ulang dari model table buku
+            btn_HapusData(nama);
+            InitTable();
+            TampilData();
             
-            JOptionPane.showMessageDialog(this, "Data Dengan"+"\nJudul : "+txtJudul.getText()+"\nPenulis : "+comboPenulis.getSelectedItem()+"\nHarga : "+txtHarga.getText()+"\nBerhasil Dihapus");
+            JOptionPane.showMessageDialog(this, "Data Dengan"+"\nNama : "+txtNama.getText()+"\nJurusan : "+comboJurusan.getSelectedItem()+"\nNim : "+txtNim.getText()+"\nBerhasil Dihapus");
          }
         catch (Exception e)
         {
@@ -590,7 +579,7 @@ public class posttest extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_HapusActionPerformed
 
     private void btn_KeluarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_KeluarMouseClicked
-        System.exit(0);//keluar dari program
+        System.exit(0);
     }//GEN-LAST:event_btn_KeluarMouseClicked
 
     private void btn_KeluarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_KeluarMouseEntered
@@ -612,10 +601,6 @@ public class posttest extends javax.swing.JFrame {
     private void jTable1ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jTable1ComponentShown
         // TODO add your handling code here:
     }//GEN-LAST:event_jTable1ComponentShown
-
-    private void combocariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combocariActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_combocariActionPerformed
 
     /**
      * @param args the command line arguments
@@ -646,6 +631,10 @@ public class posttest extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -661,9 +650,9 @@ public class posttest extends javax.swing.JFrame {
     private javax.swing.JButton btn_Simpan1;
     private javax.swing.JButton btn_Update;
     private javax.swing.JTextField cari;
-    private javax.swing.JComboBox<String> comboPenulis;
-    private javax.swing.JComboBox<String> combocari;
+    private javax.swing.JComboBox<String> comboJurusan;
     private javax.swing.JPanel header;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -674,7 +663,7 @@ public class posttest extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField txtHarga;
-    private javax.swing.JTextField txtJudul;
+    private javax.swing.JTextField txtNama;
+    private javax.swing.JTextField txtNim;
     // End of variables declaration//GEN-END:variables
 }
